@@ -1,0 +1,69 @@
+# Windows,Linux双方で行う。
+
+# 設定
+code --install-extension EditorConfig.EditorConfig
+code --install-extension vscode-icons-team.vscode-icons
+code --install-extension alefragnani.project-manager
+code --install-extension spencerwmiles.vscode-task-buttons
+code --install-extension MS-CEINTL.vscode-language-pack-ja
+code --install-extension ms-vscode-remote.remote-ssh
+code --install-extension ms-vscode-remote.remote-ssh-edit
+code --install-extension ms-vscode.remote-explorer
+code --install-extension jgclark.vscode-todo-highlight
+code --install-extension Gruntfuggly.todo-tree
+code --install-extension AmazonWebServices.aws-toolkit-vscode
+
+# 全言語共通
+code --install-extension esbenp.prettier-vscode
+code --install-extension formulahendry.auto-close-tag
+code --install-extension formulahendry.auto-rename-tag
+code --install-extension formulahendry.code-runner
+code --install-extension oderwat.indent-rainbow
+code --install-extension ionutvmi.path-autocomplete
+code --install-extension streetsidesoftware.code-spell-checker
+code --install-extension usernamehw.errorlens
+code --install-extension timonwong.shellcheck
+
+# Git
+code --install-extension eamodio.gitlens
+code --install-extension mhutchie.git-graph
+code --install-extension github.vscode-github-actions
+code --install-extension github.vscode-pull-request-github
+
+# bash
+code --install-extension foxundermoon.shell-format
+code --install-extension mads-hartmann.bash-ide-vscode
+code --install-extension rogalmic.bash-debug
+
+# Python
+code --install-extension ms-python.python
+code --install-extension ms-python.vscode-pylance
+code --install-extension ms-python.black-formatter
+
+# PowerShell
+code --install-extension ms-vscode.powershell
+
+# Markdown
+code --install-extension shd101wyy.markdown-preview-enhanced
+code --install-extension zaaack.markdown-editor
+code --install-extension yzhang.markdown-all-in-one
+code --install-extension PKief.markdown-checkbox
+code --install-extension corschenzi.mermaid-graphical-editor
+
+# reStructuredText
+code --install-extension lextudio.restructuredtext
+code --install-extension trond-snekvik.simple-rst
+code --install-extension swyddfa.esbonio
+code --install-extension shd101wyy.markdown-preview-enhanced
+
+# その他言語
+code --install-extension GrapeCity.gc-excelviewer
+code --install-extension hediet.vscode-drawio
+code --install-extension AykutSarac.jsoncrack-vscode
+code --install-extension redhat.vscode-yaml
+code --install-extension hrst.yamaha-rt
+code --install-extension jamiewoodio.cisco
+code --install-extension hashicorp.terraform
+code --install-extension kddejong.vscode-cfn-lint
+code --install-extension dannysteenman.cloudformation-yaml-snippets
+code --install-extension remcohaszing.schemastore

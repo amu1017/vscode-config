@@ -77,16 +77,7 @@ apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     python3-dev \
-    python-is-python3 \
-    python3-numpy \
-    python3-pandas \
-    python3-matplotlib \
-    python3-seaborn \
-    python3-openpyxl \
-    python3-pil \
-    python3-sphinx \
-    python3-sphinx-rtd-theme \
-    python3-sphinx-autobuild
+    python-is-python3
 
 # OSパッケージインストール -Go編-
 apt-get update && apt-get install -y \
@@ -132,10 +123,33 @@ wget -q https://github.com/negset/Firple/releases/download/4.000/Firple.zip \
  && rm -rf ./Firple* \
  && fc-cache -r
 
-#Cfn-lint インストール
-pip install --break-system-packages cfn-lint pydot
+# pipインストール -common編-
+cat <<"EOF" >pip-common
+pip-search
+numpy
+pandas
+matplotlib
+seaborn
+openpyxl
+Pillow
+EOF
+pip install --break-system-packages -r pip-common
 
+# pipインストール -sphinx編-
+cat <<"EOF" >pip-sphinx
+Sphinx
+sphinx-autobuild
+sphinx-rtd-theme
+myst-parser
+EOF
+pip install --break-system-packages -r pip-sphinx
 
+# pipインストール -Cfn-lint編-
+cat <<"EOF" >pip-cfn
+cfn-lint
+pydot
+EOF
+pip install --break-system-packages -r pip-cfn
 
 # OS日本語設定
 apt-get update && apt-get install -y locales \
@@ -153,16 +167,9 @@ sed -i 's/#PasswordAuthentication/PasswordAuthentication/g' /etc/ssh/sshd_config
  && systemctl restart sshd
 
 # ユーザー作成
-username="amu1017" && password="aaaa" \
+username="test" && password="aaaa" \
  && groupadd -g 1000 ${username} \
  && useradd -m -s /bin/bash -u 1000 -g 1000 -G sudo ${username} \
  && echo "${username}:${password}" | chpasswd \
  && echo "${username}   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
  && unset username && unset password
-
-# ============実行ユーザー作業============
-# SSHキーの準備
-ssh-keygen -t ed25519 -N "" -C "" -f /tmp/createkey \
- && mkdir ~/.ssh/ && chmod 700 ~/.ssh \
- && mv /tmp/createkey.pub ~/.ssh/authorized_keys && chmod 644 ~/.ssh/authorized_keys \
- && cat /tmp/createkey && rm -rf /tmp/createkey 

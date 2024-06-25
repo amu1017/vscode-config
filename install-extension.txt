@@ -36,6 +36,7 @@ tyriar.luna-paint
 foxundermoon.shell-format
 timonwong.shellcheck
 rogalmic.bash-debug
+mads-hartmann.bash-ide-vscode
 
 # python
 ms-python.black-formatter

@@ -1,69 +1,79 @@
 # Windows,Linux双方で行う。
 
-# 設定
-code --install-extension EditorConfig.EditorConfig
-code --install-extension vscode-icons-team.vscode-icons
-code --install-extension alefragnani.project-manager
-code --install-extension spencerwmiles.vscode-task-buttons
-code --install-extension MS-CEINTL.vscode-language-pack-ja
-code --install-extension ms-vscode-remote.remote-ssh
-code --install-extension ms-vscode-remote.remote-ssh-edit
-code --install-extension ms-vscode.remote-explorer
-code --install-extension jgclark.vscode-todo-highlight
-code --install-extension Gruntfuggly.todo-tree
-code --install-extension AmazonWebServices.aws-toolkit-vscode
+code --list-extensions
 
-# 全言語共通
-code --install-extension esbenp.prettier-vscode
-code --install-extension formulahendry.auto-close-tag
-code --install-extension formulahendry.auto-rename-tag
-code --install-extension formulahendry.code-runner
-code --install-extension oderwat.indent-rainbow
-code --install-extension ionutvmi.path-autocomplete
-code --install-extension streetsidesoftware.code-spell-checker
-code --install-extension usernamehw.errorlens
-code --install-extension timonwong.shellcheck
+# 設定系
+alefragnani.project-manager
+editorconfig.editorconfig
+gruntfuggly.todo-tree
+ms-ceintl.vscode-language-pack-ja
+spencerwmiles.vscode-task-buttons
+vscode-icons-team.vscode-icons
 
-# Git
-code --install-extension eamodio.gitlens
-code --install-extension mhutchie.git-graph
-code --install-extension github.vscode-github-actions
-code --install-extension github.vscode-pull-request-github
+# 全言語共通系
+esbenp.prettier-vscode
+formulahendry.auto-close-tag
+formulahendry.auto-rename-tag
+formulahendry.code-runner
+ionutvmi.path-autocomplete
+oderwat.indent-rainbow
+usernamehw.errorlens
+streetsidesoftware.code-spell-checker
+jgclark.vscode-todo-highlight
+
+# ユーティリティ系
+amazonwebservices.aws-toolkit-vscode
+aykutsarac.jsoncrack-vscode
+corschenzi.mermaid-graphical-editor
+grapecity.gc-excelviewer
+hediet.vscode-drawio
+github.vscode-github-actions
+github.vscode-pull-request-github
+mhutchie.git-graph
+tyriar.luna-paint
 
 # bash
-code --install-extension foxundermoon.shell-format
-code --install-extension mads-hartmann.bash-ide-vscode
-code --install-extension rogalmic.bash-debug
+foxundermoon.shell-format
+timonwong.shellcheck
+rogalmic.bash-debug
 
-# Python
-code --install-extension ms-python.python
-code --install-extension ms-python.vscode-pylance
-code --install-extension ms-python.black-formatter
+# python
+ms-python.black-formatter
+ms-python.debugpy
+ms-python.python
+ms-python.vscode-pylance
 
 # PowerShell
-code --install-extension ms-vscode.powershell
+ms-vscode.powershell
+
+# Sphinx
+swyddfa.esbonio
+trond-snekvik.simple-rst
+lextudio.restructuredtext
 
 # Markdown
-code --install-extension shd101wyy.markdown-preview-enhanced
-code --install-extension zaaack.markdown-editor
-code --install-extension yzhang.markdown-all-in-one
-code --install-extension PKief.markdown-checkbox
-code --install-extension corschenzi.mermaid-graphical-editor
+yzhang.markdown-all-in-one
+zaaack.markdown-editor
+shd101wyy.markdown-preview-enhanced
+pkief.markdown-checkbox
 
-# reStructuredText
-code --install-extension lextudio.restructuredtext
-code --install-extension trond-snekvik.simple-rst
-code --install-extension swyddfa.esbonio
-code --install-extension shd101wyy.markdown-preview-enhanced
+# Terraform
+hashicorp.terraform
 
-# その他言語
-code --install-extension GrapeCity.gc-excelviewer
-code --install-extension hediet.vscode-drawio
-code --install-extension AykutSarac.jsoncrack-vscode
-code --install-extension redhat.vscode-yaml
-code --install-extension hrst.yamaha-rt
-code --install-extension jamiewoodio.cisco
-code --install-extension hashicorp.terraform
-code --install-extension kddejong.vscode-cfn-lint
-code --install-extension dannysteenman.cloudformation-yaml-snippets
-code --install-extension remcohaszing.schemastore
+# CloudFormation
+kddejong.vscode-cfn-lint
+dannysteenman.cloudformation-yaml-snippets
+
+# その他
+hrst.yamaha-rt
+jamiewoodio.cisco
+redhat.vscode-yaml
+remcohaszing.schemastore
+
+# Windowsのみで行う。
+code --list-extensions
+
+# Remote SSH拡張機能３つ
+ms-vscode-remote.remote-ssh
+ms-vscode-remote.remote-ssh-edit
+ms-vscode.remote-explorer

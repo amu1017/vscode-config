@@ -137,6 +137,7 @@ pip install --break-system-packages -r pip-common
 
 # pipインストール -sphinx編-
 cat <<"EOF" >pip-sphinx
+esbonio
 Sphinx
 sphinx-autobuild
 sphinx-rtd-theme

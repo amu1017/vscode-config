@@ -1,3 +1,5 @@
+// "C:\Users\****\AppData\Roaming\Code\User\settings.json"
+
 {
   "window.title": "${dirty}\\${activeEditorMedium}${separator}${rootName}",
   "workbench.colorTheme": "Default Light+", // VSCODEのテーマをDefault Light+にする。
@@ -50,6 +52,14 @@
     // SSHリモートデバッグのOS
     "VSCODE-SSH": "linux"
   },
+  "workbench.editorAssociations": {
+    // エディタの選択
+    "*.png": "luna.editor",
+    "*.bmp": "luna.editor",
+    "*.jpg": "luna.editor",
+    "*.jpeg": "luna.editor",
+    "*.ico": "luna.editor"
+  },
   "code-runner.executorMap": {
     // Code Runnerのインタープリタ
     "python": "python -u",
@@ -98,6 +108,7 @@
   },
   "[json][jsonc]": {
     // jsonファイルの固有設定
+    "editor.defaultFormatter": "vscode.json-language-features",
     "editor.tabSize": 2 // tabキー押したときのスペース数
   },
   "[markdown]": {
@@ -152,8 +163,12 @@
   "json.schemas": [
     {
       // IAMポリシー
-      "fileMatch": "*.iam.json",
+      "fileMatch": [
+        "*.iam.json"
+      ],
       "url": "https://gist.githubusercontent.com/jstewmon/ee5d4b7ec0d8d60cbc303cb515272f8a/raw/4e381019a7804b2cc186699ff171f25b06f06542/aws-iam-poilcy-schema.json"
     }
-  ]
+  ],
 }
+
+

@@ -51,6 +51,7 @@ ms-vscode.powershell
 swyddfa.esbonio
 trond-snekvik.simple-rst
 lextudio.restructuredtext
+ExecutableBookProject.myst-highlight
 
 # Markdown
 yzhang.markdown-all-in-one

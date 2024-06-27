@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 BIND_PJ=~/projects
 PJ_BASH=${BIND_PJ}/010_bash
@@ -9,7 +9,6 @@ PJ_HUGO=${BIND_PJ}/050_hugo
 PJ_TF=${BIND_PJ}/060_Terraform
 PJ_CFN=${BIND_PJ}/070_CloudFormation
 PJ_OTHER=${BIND_PJ}/900_other
-
 
 ### ディレクトリ作成
 echo "Step1: mkdir"
@@ -128,27 +127,27 @@ cat <<"EOF" >${SPHINX_CONFIG}/tasks.json
     {
       "label": "Clean-Af",
       "type": "shell",
-      "command": "echo rm -rf %BUILDDIR% %LIVEBUILDDIR% %LOCKFILE%"
+      "command": "echo \"rm -rf %BUILDDIR% %LIVEBUILDDIR% %LOCKFILE%\""
     },
     {
       "label": "Start-SV",
       "type": "shell",
-      "command": "echo sphinx-autobuild -b html %SOURCEDIR% %LIVEBUILDDIR%"
+      "command": "echo \"sphinx-autobuild -b html %SOURCEDIR% %LIVEBUILDDIR%\""
     },
     {
       "label": "Stop-SV",
       "type": "shell",
-      "command": "echo killall -9 sphinx-autobuild"
+      "command": "echo \"killall -9 sphinx-autobuild\""
     },
     {
       "label": "Build",
       "type": "shell",
-      "command": "echo sphinx-build -b html %SOURCEDIR% %BUILDDIR%"
+      "command": "echo \"sphinx-build -b html %SOURCEDIR% %BUILDDIR%\""
     },
     {
       "label": "Sync-Git",
       "type": "shell",
-      "command": "echo git checkout default \&\& git pull origin main \&\& git checkout %ACTUAL% \&\& git merge default %ACTUAL%"
+      "command": "echo \"git checkout default && git pull origin main && git checkout %ACTUAL% && git merge default %ACTUAL%\""
     }
   ]
 }
@@ -193,22 +192,22 @@ cat <<"EOF" >${HUGO_CONFIG}/tasks.json
     {
       "label": "Clean-Af",
       "type": "shell",
-      "command": "echo rm -rf %LIVEBUILDDIR% .hugo_build.lock"
+      "command": "echo \"rm -rf %LIVEBUILDDIR% .hugo_build.lock\""
     },
     {
       "label": "Start-SV",
       "type": "shell",
-      "command": "echo hugo server --bind=\"0.0.0.0\" -b=\"%LIVEBUILDURL%\" --gc --ignoreCache --watch"
+      "command": "echo \"hugo server --bind=\\\"0.0.0.0\\\" -b=\\\"%LIVEBUILDURL%\\\" --gc --ignoreCache --watch\""
     },
     {
       "label": "Stop-SV",
       "type": "shell",
-      "command": "echo killall -9 hugo \&\& rm -rf .hugo_build.lock"
+      "command": "echo \"killall -9 hugo && rm -rf .hugo_build.lock\""
     },
     {
       "label": "Sync-Git",
       "type": "shell",
-      "command": "echo git checkout default \&\& git pull origin main \&\& git checkout %ACTUAL% \&\& git merge default %ACTUAL%"
+      "command": "echo \"git checkout default && git pull origin main && git checkout %ACTUAL% && git merge default %ACTUAL%\""
     }
   ]
 }

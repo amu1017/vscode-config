@@ -1,16 +1,14 @@
 # syntax=docker/dockerfile:1.7
-FROM debian:12
+FROM ubuntu:22.04
 
 # ============パッケージインストール作業============
 USER root
 
-# OSパッケージリポジトリ設定
-COPY <<-EOF /etc/apt/sources.list
-deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
-deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
-deb http://deb.debian.org/debian-security/ bookworm-security main contrib non-free non-free-firmware
-EOF
-RUN rm -rf /etc/apt/sources.list.d/debian.sources
+# 一時的にaptのインタラクティブモードをOFFにする
+ARG DEBIAN_FRONTEND=noninteractive
+
+# 通常版Ubuntuへ復元
+RUN yes | unminimize
 
 # OSパッケージインストール -基本編-
 RUN apt-get update && apt-get install -y \
@@ -27,6 +25,7 @@ RUN apt-get update && apt-get install -y \
     gawk \
     psmisc \
     dos2unix \
+    binutils \
     apt-utils \
     software-properties-common \
     apt-transport-https
@@ -60,7 +59,6 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get update && apt-get install -y \
     build-essential \
     fontconfig \
-    ttf-mscorefonts-installer \
     fonts-noto-cjk \
     fonts-noto-cjk-extra \
     fonts-noto-color-emoji \
@@ -73,12 +71,9 @@ RUN apt-get update && apt-get install -y \
     fonts-ipamj-mincho \
  && fc-cache -r
 
-# OSパッケージインストール -汎用開発編-
-RUN apt-get update && apt-get install -y \
-    build-essential 
-
 # OSパッケージインストール -python編-
 RUN apt-get update && apt-get install -y \
+    build-essential \
     python3 \
     python3-pip \
     python3-dev \
@@ -90,19 +85,19 @@ RUN apt-get update && apt-get install -y \
     delve
 
 # Pwshインストール
-RUN wget -q https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb \
+RUN wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb \
  && dpkg -i ./packages-microsoft-prod.deb \
  && apt-get update && apt-get install -y powershell \
  && rm -rf ./packages-microsoft-prod.deb
 
 # AWS CLIインストール
-RUN wget -q https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip \
+RUN wget https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip \
  && unzip ./awscli-exe-linux-x86_64.zip \
  && ./aws/install -i /usr/local/aws-cli -b /usr/local/bin \
  && rm -rf ./awscli-exe-linux-x86_64.zip ./aws
 
 # Hugoインストール
-RUN wget -q https://github.com/gohugoio/hugo/releases/download/v0.128.0/hugo_extended_0.128.0_linux-amd64.deb \
+RUN wget https://github.com/gohugoio/hugo/releases/download/v0.128.0/hugo_extended_0.128.0_linux-amd64.deb \
  && dpkg -i ./hugo_extended_0.128.0_linux-amd64.deb \
  && rm -rf ./hugo_extended_0.128.0_linux-amd64.deb
 
@@ -120,16 +115,16 @@ RUN wget -qO- https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/sha
  && apt-get update && apt-get install -y terraform
 
 # Firpleフォントインストール
-RUN wget -q https://github.com/negset/Firple/releases/download/4.000/Firple.zip \
+RUN wget https://github.com/negset/Firple/releases/download/4.000/Firple.zip \
  && unzip ./Firple.zip  \
- && wget -q https://github.com/negset/Firple/releases/download/4.000/FirpleSlim.zip \
+ && wget https://github.com/negset/Firple/releases/download/4.000/FirpleSlim.zip \
  && unzip ./FirpleSlim.zip  \
  && cp -vf ./Firple*.ttf /usr/local/share/fonts/ \
  && rm -rf ./Firple* \
  && fc-cache -r
 
 # pandocインストール
-RUN wget -q https://github.com/jgm/pandoc/releases/download/3.2.1/pandoc-3.2.1-linux-amd64.tar.gz \
+RUN wget https://github.com/jgm/pandoc/releases/download/3.2.1/pandoc-3.2.1-linux-amd64.tar.gz \
  && tar xvzf ./pandoc-3.2.1-linux-amd64.tar.gz --strip-components 1 -C /usr/local/ \
  && rm -rf ./pandoc-3.2.1-linux-amd64.tar.gz
 
@@ -147,7 +142,8 @@ seaborn
 openpyxl
 Pillow
 EOF
-RUN pip install --break-system-packages -r pip-common
+RUN pip install -r pip-common \
+ && rm -rf pip-common
 
 # pipインストール -sphinx編-
 COPY <<-EOF pip-sphinx
@@ -159,58 +155,49 @@ mystmd
 myst-parser
 rst-to-myst
 EOF
-RUN pip install --break-system-packages -r pip-sphinx
+RUN pip install -r pip-sphinx \
+ && rm -rf pip-sphinx
 
 # pipインストール -Cfn-lint編-
 COPY <<-EOF pip-cfn
 cfn-lint
 pydot
 EOF
-RUN pip install --break-system-packages -r pip-cfn
+RUN pip install -r pip-cfn \
+ && rm -rf pip-cfn
 
-# ============OS基本設定作業============
+# ============OS設定============
 USER root
 
 # OS日本語設定
-
-RUN apt-get update && apt-get install -y locales \
- && sed -i 's/# ja_JP.UTF-8 UTF-8/ja_JP.UTF-8 UTF-8/g' /etc/locale.gen \
- && locale-gen \
- && echo "export LANG='ja_JP.UTF-8'" > /etc/profile.d/lang-jp.sh \
- && echo "export LC_ALL='ja_JP.UTF-8'" >> /etc/profile.d/lang-jp.sh \
- && echo "export LANGUAGE='ja_JP:ja'" >> /etc/profile.d/lang-jp.sh \
- && ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+RUN apt-get update && apt-get install -y \
+    language-pack-ja-base \
+    language-pack-ja \
+    locales \
+    tzdata \
+ && update-locale LANG=ja_JP.UTF8 \
+ && ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
+ && dpkg-reconfigure --frontend noninteractive tzdata
 
 # sudo可能な一般ユーザー作成
-RUN groupadd -g 1000 group \
- && useradd -m -s /bin/bash -u 1000 -g 1000 -G sudo user \
+RUN groupadd -g 9999 group \
+ && useradd -m -s /bin/bash -u 9999 -g 9999 -G sudo user \
  && echo "user:P@ssw0rd" | chpasswd \
  && echo "user   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # SSHサーバーの準備
 RUN mkdir -p /var/run/sshd \
  && chmod 755 /var/run/sshd \
- && chown root.root /var/run/sshd \
+ && chown root:root /var/run/sshd \
  && ssh-keygen -A
 
-# ホストOSとの共有フォルダ作成
-RUN mkdir /host && chmod 1777 /host
-
-
-# ============実行ユーザー作業============
-USER user
-
-# ホストOSとの共有フォルダのリンク
-RUN ln -s /projects /home/user/projects
-
-# SSHディレクトリの用意
+# ユーザー用のSSHディレクトリ作成
 RUN mkdir /home/user/.ssh/ \
- && chmod 700 /home/user/.ssh/ \
+ && chmod 0700 /home/user/.ssh/ \
  && chown user:group /home/user/.ssh/
 
-# ============起動設定============
-USER root
 
+# ============起動設定============
 # OSパッケージの不要ファイル掃除
 RUN apt-get upgrade -y \
  && apt-get autoremove -y \
@@ -218,20 +205,38 @@ RUN apt-get upgrade -y \
  && rm -rf /var/lib/apt/lists/*
 
 # 起動スクリプトを生成する。
-COPY <<-EOF /etc/docker-entrypoint.sh
+COPY <<-EOF /entrypoint.sh
 #!/bin/bash
 # ----------------Start---------------
-[ -n "$(cat /run/secrets/CHANGE_PW)" ] && echo "set user passwd" && echo "user:$(cat /run/secrets/CHANGE_PW)" | chpasswd
-[ -n "$(cat /run/secrets/SSH_PUBKEY)" ] && echo "set ssh pubkey1" && echo "$(cat /run/secrets/SSH_PUBKEY)" > /home/user/.ssh/authorized_keys
-[ -n "$(cat /run/secrets/SSH_PUBKEY)" ] && echo "set ssh pubkey2" && chmod 600 /home/user/.ssh/authorized_keys ; chown user:group /home/user/.ssh/authorized_keys
+if [ "$(stat -c '%u' /projects)" -ne 0 ] && [ "$(stat -c '%g' /projects)" -ne 9999 ]; then
+    echo "set gid"
+    groupmod -g "$(stat -c '%g' /projects)" "group"
+    chgrp -R "$(stat -c '%g' /projects)" "/home/user"
+fi
+if [ "$(stat -c '%u' /projects)" -ne 0 ] && [ "$(stat -c '%u' /projects)" -ne 9999 ]; then
+    echo "set uid"
+    usermod -u "$(stat -c '%u' /projects)" "user"
+fi
+if [ -n "$(cat /run/secrets/CHANGE_PW)" ]; then
+    echo "set user passwd"
+    echo "user:$(cat /run/secrets/CHANGE_PW)" | chpasswd
+fi
+if [ -n "$(cat /run/secrets/SSH_PUBKEY)" ]; then
+    echo "set ssh pubkey"
+    echo "$(cat /run/secrets/SSH_PUBKEY)" > /home/user/.ssh/authorized_keys
+    chmod 600 /home/user/.ssh/authorized_keys
+    chown "$(stat -c '%u' /projects):$(stat -c '%g' /projects)" /home/user/.ssh/authorized_keys
+fi
+ln -s /projects /home/user/projects
 echo "start sshd"
 /usr/sbin/sshd -D
 # ----------------End-----------------
 EOF
-RUN chmod +x /etc/docker-entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # 公開するポート
 EXPOSE 22
 
 # 起動時に実行するコマンド
-CMD ["/etc/docker-entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/bin/bash"]

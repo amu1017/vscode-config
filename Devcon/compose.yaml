@@ -1,0 +1,19 @@
+services:
+  devcontainer:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: custom/devcontainer:latest
+    container_name: devcontainer
+    hostname: devcontainer
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - type: bind
+        source: "/var/run/docker.sock"
+        target: "/var/run/docker.sock"
+      - type: bind
+        source: "../../"
+        target: "/workspace/"
+    extra_hosts:
+      - host.docker.internal:host-gateway

@@ -1,0 +1,233 @@
+{
+  "window.title": "${dirty}\\${activeEditorMedium}${separator}${rootName}",
+  "workbench.colorTheme": "Default Light+", // VSCODEのテーマをDefault Light+にする。
+  "files.insertFinalNewline": true, // ファイルの末尾を改行で終わらせる
+  "files.encoding": "utf8", // 文字コード
+  "files.eol": "\n", // 改行コード
+  "files.autoGuessEncoding": true, // 文字コードの自動判別
+  "editor.insertSpaces": true, // tabキー押したときのスペースにするか
+  "editor.tabSize": 4, // tabキー押したときのスペース数
+  "editor.autoIndent": "keep", // 改行時のインデント維持
+  "editor.wordWrap": "on", // ページ折り返し
+  "editor.snippetSuggestions": "top", // サジェスト時のスペニット表示場所
+  "editor.fontFamily": "Firple,'ＭＳ ゴシック'", // フォント設定
+  "editor.renderControlCharacters": true, // 制御文字を表示する
+  "editor.suggestSelection": "first", // サジェスト一覧の初期表示項目 設定
+  "editor.renderLineHighlight": "all", // 選択行の行番号をハイライトする
+  "editor.cursorBlinking": "smooth", // カーソルが滑らかに点滅するように
+  "editor.cursorStyle": "line", // エディターのカーソル種類
+  "editor.cursorSmoothCaretAnimation": "on", // ファイルの自動エンコードを実施
+  "editor.bracketPairColorization.enabled": true, // 括弧の対応を色付け る
+  "editor.guides.bracketPairs": true, // 括弧を線でつなげる
+  "editor.guides.bracketPairsHorizontal": "active", // 括弧を線でつなげる_横
+  "editor.formatOnSave": true, // 保存時にフォーマット
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // フォーマッター
+  "editor.quickSuggestions": {
+    // サジェストの自動表示
+    "strings": true,
+    "other": true,
+    "comments": false
+  },
+  "diffEditor.ignoreTrimWhitespace": false, // 差分エディタの先頭末尾空白無効化
+  "workbench.iconTheme": "vscode-icons", //テーマアイコン設定
+  "terminal.integrated.cursorStyle": "block", // ターミナルのカーソル 種類
+  "breadcrumbs.enabled": true, // ファイルのパンくずリストを表示する
+  "markdown.preview.scrollEditorWithPreview": false, // MDのプレビューをスクロール連動しない
+  "code-runner.runInTerminal": true, // Code Runnerをターミナルで開く
+  "VsCodeTaskButtons.showCounter": false, // タスクボタン数の表示を無効化
+  "aws.telemetry": false, // AWS Toolkitの情報収集を無効化
+  "redhat.telemetry.enabled": false, // redhatの情報収集を無効化
+  "yaml.format.enable": true, // yamlのフォーマットを有効化
+  "git.autofetch": true, // 自動でgit fetchする
+  "markdown.extension.toc.updateOnSave": true, //MD保存時にTOCを更新する
+  "markdown.extension.toc.levels": "2..4", //MDのTOC作成段落を２～４にする
+  "markdown-preview-enhanced.previewTheme": "github-light.css", // MD EnhancedプレビューのテーマをGithub Lightにする
+  "markdown-preview-enhanced.scrollSync": false, // MD Enhanced プレビューをスクロール連動しない
+  "markdown-checkbox.withBulletPoint": true, // MDチェックボックスの前を箇条書きにする
+  "markdown-checkbox.typeOfBulletPoint": "+", // MDチェックボックスの前の箇条書きを＋にする
+  "markdown-checkbox.strikeThroughWhenChecked": true, // MDチェックボックスがオンなら取り消し線にする
+  "workbench.editorAssociations": {
+    // エディタの選択
+    "*.drawio.png": "hediet.vscode-drawio",
+    "*.png": "luna.editor",
+    "*.bmp": "luna.editor",
+    "*.jpg": "luna.editor",
+    "*.jpeg": "luna.editor",
+    "*.ico": "luna.editor"
+  },
+  "code-runner.executorMap": {
+    // Code Runnerのインタープリタ
+    "python": "python -u",
+    "powershell": "pwsh -File",
+    "bat": "cmd /c",
+    "shellscript": "bash"
+  },
+  "[python]": {
+    // Pythonの固有設定
+    "editor.defaultFormatter": "ms-python.black-formatter" // フォーマッター
+  },
+  "[shellscript]": {
+    // シェルスクリプトの固有設定
+    "editor.defaultFormatter": "foxundermoon.shell-format" // フォーマッター
+  },
+  "[dockerfile]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+    // Dockerfileの固有設定
+  },
+  "[dockercompose]": {
+    // dockercomposeファイルの固有設定
+    "editor.tabSize": 2, // tabキー押したときのスペース数
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[properties]": {
+    // .propertiesファイルの固有設定
+    "editor.defaultFormatter": "foxundermoon.shell-format" // フォーマッター
+  },
+  "[host]": {
+    // hostsファイルの固有設定
+    "editor.defaultFormatter": "foxundermoon.shell-format" // フォーマッター
+  },
+  "[powershell]": {
+    // PowerShellの固有設定
+    "editor.defaultFormatter": "ms-vscode.powershell", // フォーマッター
+    "files.encoding": "utf8bom", // 文字コード
+    "files.eol": "\r\n" // 改行コード
+  },
+  "[bat]": {
+    // batファイルの固有設定
+    "files.encoding": "shiftjis", // 文字コード
+    "files.eol": "\r\n" // 改行コード
+  },
+  "[yaml]": {
+    // yamlファイルの固有設定
+    "editor.tabSize": 2 // tabキー押したときのスペース数
+  },
+  "[json][jsonc]": {
+    // jsonファイルの固有設定
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.tabSize": 2 // tabキー押したときのスペース数
+  },
+  "[markdown]": {
+    // Markdownの固有設定
+    "editor.tabSize": 2, // tabキー押したときのスペース数
+    "editor.wordSeparators": "./\\()\"'-:,.;<>~!@# ○$%^&*|+=[]{}`~?．。，、（）「」［］｛｝《》てにをはがのともへでや"
+  },
+  "[terraform]": {
+    // Terraformの固有設定
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "[terraform-vars]": {
+    // Terraform-varsの固有設定
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "yaml.customTags": [
+    // CloudFormation用タグ
+    "!Ref",
+    "!Sub scalar",
+    "!Sub sequence",
+    "!Join sequence",
+    "!FindInMap sequence",
+    "!GetAtt scalar",
+    "!GetAtt sequence",
+    "!Base64 mapping",
+    "!GetAZs",
+    "!Select scalar",
+    "!Select sequence",
+    "!Split sequence",
+    "!ImportValue",
+    "!Condition",
+    "!Equals sequence",
+    "!And",
+    "!If",
+    "!Not",
+    "!Or",
+    "!And sequence",
+    "!If sequence",
+    "!Not sequence",
+    "!Equals",
+    "!Or sequence",
+    "!FindInMap",
+    "!Base64",
+    "!Join",
+    "!Cidr",
+    "!Sub",
+    "!GetAtt",
+    "!ImportValue sequence",
+    "!Select",
+    "!Split"
+  ],
+  "json.schemas": [
+    {
+      // IAMポリシー
+      "fileMatch": [
+        "*.iam.json"
+      ],
+      "url": "https://gist.githubusercontent.com/jstewmon/ee5d4b7ec0d8d60cbc303cb515272f8a/raw/4e381019a7804b2cc186699ff171f25b06f06542/aws-iam-poilcy-schema.json"
+    }
+  ],
+  "dev.containers.executeInWSL": true,
+  "dev.containers.defaultExtensions": [
+    "alefragnani.project-manager",
+    "amazonwebservices.aws-toolkit-vscode",
+    "aykutsarac.jsoncrack-vscode",
+    "corschenzi.mermaid-graphical-editor",
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "formulahendry.auto-close-tag",
+    "formulahendry.auto-rename-tag",
+    "formulahendry.code-runner",
+    "foxundermoon.shell-format",
+    "github.vscode-github-actions",
+    "github.vscode-pull-request-github",
+    "grapecity.gc-excelviewer",
+    "gruntfuggly.todo-tree",
+    "hashicorp.terraform",
+    "hediet.vscode-drawio",
+    "hrst.yamaha-rt",
+    "ionutvmi.path-autocomplete",
+    "jamiewoodio.cisco",
+    "jgclark.vscode-todo-highlight",
+    "kddejong.vscode-cfn-lint",
+    "ms-azuretools.vscode-docker",
+    "ms-ceintl.vscode-language-pack-ja",
+    "ms-python.black-formatter",
+    "ms-python.debugpy",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-vscode.powershell",
+    "oderwat.indent-rainbow",
+    "pkief.markdown-checkbox",
+    "redhat.vscode-yaml",
+    "remcohaszing.schemastore",
+    "rogalmic.bash-debug",
+    "shd101wyy.markdown-preview-enhanced",
+    "spencerwmiles.vscode-task-buttons",
+    "streetsidesoftware.code-spell-checker",
+    "timonwong.shellcheck",
+    "tyriar.luna-paint",
+    "usernamehw.errorlens",
+    "vscode-icons-team.vscode-icons",
+    "yzhang.markdown-all-in-one",
+    "zaaack.markdown-editor"
+  ],
+  "hediet.vscode-drawio.resizeImages": false,
+  "hediet.vscode-drawio.customLibraries": [
+    {
+      "entryId": "Interop 2024",
+      "libName": "Interop 2024",
+      "file": "C:\\Users\\@@@\\AppData\\Roaming\\Code\\User\\_resource\\interop-2024.xml"
+    },
+    {
+      "entryId": "OCI v24.2",
+      "libName": "OCI v24.2",
+      "file": "C:\\Users\\@@@\\AppData\\Roaming\\Code\\User\\_resource\\OCI-v24_2.xml"
+    }
+  ],
+  "explorer.confirmDragAndDrop": false,
+  "cSpell.userWords": [
+    "natins",
+    "@@@",
+    "tfstate",
+    "tfvars"
+  ]
+}

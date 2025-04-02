@@ -1,0 +1,8 @@
+{
+  "name": "${localWorkspaceFolderBasename}", // コンテナー表示名
+  "dockerComposeFile": "./compose.yaml", // Docker Composeのファイルパス
+  "service": "devcontainer", // VS Codeがアタッチするコンテナー
+  "workspaceFolder": "/workspace/${localWorkspaceFolderBasename}", // VS Codeがコンテナー起動時に開くディレクトリ
+  "remoteUser": "user", // VS Codeがコンテナーにアタッチする際に使用するユーザー
+  "onCreateCommand": "sudo bash /onCreate.sh"
+}

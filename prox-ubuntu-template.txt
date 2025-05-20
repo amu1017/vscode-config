@@ -1,0 +1,142 @@
+### proxmox シェル ###
+cd /mnt/pve/template/template/img
+qm create 9002 --memory 8192 --net0 virtio,bridge=vmbr104 --scsihw virtio-scsi-pci
+qm set 9002 --name base-ubuntu2404-20250516
+qm set 9002 --scsi0 ssd:0,import-from=$(pwd)/noble-server-cloudimg-amd64-20250516.img
+qm set 9002 --ide2 ssd:cloudinit
+qm set 9002 --boot order=scsi0
+qm set 9002 --serial0 socket --vga serial0
+
+
+### proxmox GUI ###
+ハードウェア
+・CPUを2コアへ変更
+・ディスクを 26.5 GiB増加する
+Cloudinit
+・ユーザをamu1017にする
+・パスワードをつける
+・ネットワークをDHCPにする
+・イメージ再作成
+オプション
+・QEMU Guest Agent有効
+VM起動
+
+### VMコンソール ###
+vim /etc/ssh/sshd_config.d/60-cloudimg-settings.conf
+変更：PasswordAuthentication yes
+systemctl restart ssh
+
+
+### Teraterm SSH接続 ###
+sudo su -
+echo "%adm ALL=(ALL) NOPASSWD:ALL" |sudo tee -a /etc/sudoers.d/NO-PASSWD
+aa-teardown ; systemctl disable apparmor
+apt update && apt full-upgrade -y
+apt install -y qemu-guest-agent; systemctl enable --now qemu-guest-agent
+apt install -y language-pack-ja language-pack-ja-base manpages-ja manpages-ja-dev
+localectl set-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja"
+timedatectl set-timezone Asia/Tokyo
+dpkg-reconfigure keyboard-configuration
+  Generic 105-key PC
+  Japanese
+  Japanese
+  The default for the keyboard layout
+  No compose key
+sed -i 's@http\://archive.ubuntu.com/@http\://jp.archive.ubuntu.com/@g' /etc/cloud/cloud.cfg
+sed -i "/disable_root\:\ true/a ssh_pwauth: true" /etc/cloud/cloud.cfg
+sed -i 's@\-\ update_etc_hosts@\-\ \[update_etc_hosts\, once\]@g' /etc/cloud/cloud.cfg
+reboot
+
+sudo su -
+apt install -y \
+    vim \
+    less \
+    sudo \
+    htop \
+    expect \
+    tree \
+    acl \
+    bash-completion \
+    jq \
+    zip \
+    unzip \
+    nkf \
+    gawk \
+    psmisc \
+    dos2unix \
+    sysstat \
+    binutils \
+    lsb-release \
+    gnupg \
+    apt-utils \
+    software-properties-common \
+    apt-transport-https
+
+apt install -y \
+    iputils-tracepath \
+    iputils-ping \
+    ca-certificates \
+    bind9-utils \
+    net-tools \
+    traceroute \
+    nmap \
+    netcat-openbsd \
+    dnsutils
+
+apt install -y \
+    curl \
+    git \
+    wget \
+    telnet \
+    nfs-common \
+    smbclient \
+    cifs-utils \
+    lynx \
+    openssh-client \
+    openssh-server
+
+apt install -y \
+    realmd \
+    sssd \
+    sssd-tools \
+    libnss-sss \
+    libpam-sss \
+    adcli \
+    samba-common-bin \
+    oddjob \
+    oddjob-mkhomedir \
+    packagekit \
+    krb5-user
+reboot
+
+cd /
+apt autoremove -y
+apt clean
+rm -rf /var/lib/apt/lists/*
+echo -n | sudo tee /etc/machine-id
+systemctl stop cloud\*
+cloud-init clean
+rm -rf /etc/ssh/sshd_config.d/60-cloudimg-settings.conf
+rm -rf \
+  /root/.viminfo \
+  /root/.bash_history \
+  /root/.ssh \
+  /root/.lesshst \
+  /root/.sudo_as_admin_successful \
+  /root/.cache
+rm -rf \
+  /home/*/.viminfo \
+  /home/*/.bash_history \
+  /home/*/.ssh \
+  /home/*/.lesshst \
+  /home/*/.sudo_as_admin_successful \
+  /home/*/.cache
+
+cat /dev/null > ~/.bash_history && history -c && exit
+cat /dev/null > ~/.bash_history && history -c && exit
+
+
+### VMコンソール ###
+シャットボタン
+テンプレート化
+

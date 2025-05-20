@@ -1,0 +1,127 @@
+#cloud-config
+packages_update: true
+packages_upgrade: true
+package_reboot_if_required: true
+packages:
+  - vim
+  - less
+  - sudo
+  - htop
+  - expect
+  - tree
+  - acl
+  - bash-completion
+  - zip
+  - unzip
+  - dos2unix
+  - apt-utils
+  - software-properties-common
+  - apt-transport-https
+  - jq
+  - iputils-tracepath
+  - iputils-ping
+  - ca-certificates
+  - bind9-utils
+  - net-tools
+  - traceroute
+  - nmap
+  - netcat-openbsd
+  - dnsutils
+  - curl
+  - git
+  - wget
+  - telnet
+  - nfs-common
+  - smbclient
+  - openssh-client
+  - openssh-server
+  - lynx
+  - language-pack-ja-base
+  - language-pack-ja
+  - manpages-ja
+  - manpages-ja-dev
+  - realmd
+  - sssd
+  - sssd-tools
+  - libnss-sss
+  - libpam-sss
+  - adcli
+  - samba-common-bin
+  - oddjob
+  - oddjob-mkhomedir
+  - packagekit
+  - krb5-user
+
+
+write_files:
+ - path: /var/lib/cloud/scripts/per-once/01.sh
+   owner: root:root
+   permissions: '0755'
+   content: |
+     #!/bin/bash
+     echo "Per-Once Start:" $(date) >> /var/tmp/per-once-01.log
+     export DEBIAN_FRONTEND=noninteractive
+     apt-get update && apt-get dist-upgrade -y
+     dd if=/dev/zero of=/swapfile bs=1M count=1024
+     chmod 600 /swapfile; mkswap /swapfile; swapon /swapfile
+     echo '/swapfile none swap defaults 0 0' >> /etc/fstab
+     echo 'Port 19122' >> /etc/ssh/sshd_config.d/port-change.conf
+     cat <<"EOF" > /etc/ssh/sshd_config.d/home-pw-yes.conf
+     Port 22
+     Match Address 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,100.96.0.0/12 LocalPort 22
+       PasswordAuthentication yes
+     EOF
+     mkdir -p /etc/systemd/system/ssh.socket.d/ ; cat <<"EOF" > /etc/systemd/system/ssh.socket.d/override.conf
+     [Socket]
+     ListenStream=
+     ListenStream=22
+     ListenStream=19122
+     EOF
+     systemctl reload sshd; systemctl reload ssh
+     localectl set-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja"
+     timedatectl set-timezone Asia/Tokyo
+     aa-teardown ; systemctl disable apparmor
+     sleep 3s
+     echo "Per-Once End:" $(date) >> /var/tmp/per-once-01.log
+ - path: /var/lib/cloud/scripts/per-boot/01.sh
+   owner: root:root
+   permissions: '0755'
+   content: |
+     #!/bin/bash
+     echo "Per-Boot Start:" $(date) >> /var/tmp/per-boot-01.log
+     sleep 3s
+     echo "Per-Boot End:" $(date) >> /var/tmp/per-boot-01.log
+ - path: /var/lib/cloud/scripts/per-instance/01.sh
+   owner: root:root
+   permissions: '0755'
+   content: |
+     #!/bin/bash
+     echo "Per-Instance Start:" $(date) >> /var/tmp/per-instance-01.log
+     TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+     SSH_PUBKEY=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-keys/0/openssh-key)
+     for dir in $(find /home/* -maxdepth 0 -type d);
+     do
+         mkdir -p ${dir}/.ssh
+         echo ${SSH_PUBKEY} > ${dir}/.ssh/authorized_keys
+         chown $(ls -ld ${dir} | awk '{ print $3 '}):$(ls -ld ${dir} | awk '{ print $4 '}) -R ${dir}/.ssh/
+         chmod 0600 -R ${dir}/.ssh/
+         chmod 0700 ${dir}/.ssh/
+     done
+     sleep 3s
+     echo "Per-Instance End:" $(date) >> /var/tmp/per-instance-01.log
+
+
+power_state:
+  delay: 3
+  mode: reboot
+  message: 3min after reboot by Cloud-init
+
+
+# mkpasswd --method=SHA-512 --rounds=4096
+users:
+  - name: amu1017
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: [ adm, cdrom, sudo, dip, lxd ]
+    shell: /bin/bash
+    lock_passwd: false
+    passwd: $6$rounds=4096$p68AXEH1Tc.iniOM$H4Afzk6vIZAU/k3AGHWwAv9qchIkDsPXSMkKNG2wExtXK.hqQ70TzcMqgbvenswgkDc3PMeY1fATmSRPVS7lS1
